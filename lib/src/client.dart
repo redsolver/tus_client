@@ -4,7 +4,7 @@ import 'dart:typed_data' show Uint8List;
 import 'exceptions.dart';
 import 'store.dart';
 
-import 'package:cross_file/cross_file.dart' show XFile;
+import 'package:cross_file_dart/cross_file_dart.dart' show XFileDart;
 import 'package:http/http.dart' as http;
 import "package:path/path.dart" as p;
 
@@ -20,7 +20,7 @@ class TusClient {
   /// Storage used to save and retrieve upload URLs by its fingerprint.
   final TusStore? store;
 
-  final XFile file;
+  final XFileDart file;
 
   final Map<String, String>? metadata;
 
@@ -193,7 +193,7 @@ class TusClient {
 
   /// Override this method to customize creating file fingerprint
   String? generateFingerprint() {
-    return file.path?.replaceAll(RegExp(r"\W+"), '.');
+    return file.path.replaceAll(RegExp(r"\W+"), '.');
   }
 
   /// Override this to customize creating 'Upload-Metadata'
@@ -201,7 +201,7 @@ class TusClient {
     final meta = Map<String, String>.from(metadata ?? {});
 
     if (!meta.containsKey("filename")) {
-      meta["filename"] = p.basename(file.path ?? "");
+      meta["filename"] = p.basename(file.path);
     }
 
     return meta.entries
